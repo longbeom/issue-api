@@ -1,6 +1,7 @@
 package issueservice.service
 
 import issueservice.domain.IssueRepository
+import issueservice.domain.enums.IssueStatus
 import issueservice.domain.issue.Issue
 import issueservice.model.IssueRequest
 import issueservice.model.IssueResponse
@@ -23,4 +24,9 @@ class IssueService(
         )
         return IssueResponse(issueRepository.save(issue))
     }
+
+    @Transactional(readOnly = true)
+    fun getAll(status: IssueStatus) =
+        issueRepository.findAllByStatusOrderByCreatedAtDesc(status)
+            ?.map { IssueResponse(it) }
 }
