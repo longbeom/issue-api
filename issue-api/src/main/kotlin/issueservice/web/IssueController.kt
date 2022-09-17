@@ -30,6 +30,13 @@ class IssueController(
         @PathVariable id: Long,
     ) = issueService.get(id)
 
+    @PutMapping("/{id}")
+    fun edit(
+        authUser: AuthUser,
+        @PathVariable id: Long,
+        @RequestBody request: IssueRequest,
+    ) = issueService.edit(authUser.userId, id, request)
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     fun delete(
