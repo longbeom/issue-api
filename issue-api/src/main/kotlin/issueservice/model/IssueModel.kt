@@ -1,10 +1,11 @@
 package issueservice.model
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import issueservice.domain.Comment
+import issueservice.domain.Issue
 import issueservice.domain.enums.IssuePriority
 import issueservice.domain.enums.IssueStatus
 import issueservice.domain.enums.IssueType
-import issueservice.domain.issue.Issue
 import java.time.LocalDateTime
 
 data class IssueRequest(
@@ -17,6 +18,7 @@ data class IssueRequest(
 
 data class IssueResponse(
     val id: Long,
+    val comments: List<CommentResponse> = emptyList(),
     val summary: String,
     val description: String,
     val userId: Long,
@@ -33,6 +35,7 @@ data class IssueResponse(
             with(issue) {
                 IssueResponse(
                     id = id!!,
+                    comments = comments.sortedByDescending(Comment::id).map(Comment::toResponse),
                     summary = summary,
                     description = description,
                     userId = userId,

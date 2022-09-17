@@ -2,7 +2,7 @@ package issueservice.service
 
 import issueservice.domain.IssueRepository
 import issueservice.domain.enums.IssueStatus
-import issueservice.domain.issue.Issue
+import issueservice.domain.Issue
 import issueservice.exception.NotFoundException
 import issueservice.model.IssueRequest
 import issueservice.model.IssueResponse
