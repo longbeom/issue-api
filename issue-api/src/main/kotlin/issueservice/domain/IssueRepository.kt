@@ -1,10 +1,9 @@
 package issueservice.domain
 
 import issueservice.domain.enums.IssueStatus
-import issueservice.domain.issue.Issue
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface IssueRepository : JpaRepository<Issue, Long> {
 
-    fun findAllByStatusOrderByCreatedAtDesc(status: IssueStatus) : List<Issue>?
+    fun findAllByStatusOrderByCreatedAtDesc(status: IssueStatus): List<Issue>?
 }

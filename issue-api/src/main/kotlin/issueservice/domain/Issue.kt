@@ -1,6 +1,5 @@
-package issueservice.domain.issue
+package issueservice.domain
 
-import issueservice.domain.BaseEntity
 import issueservice.domain.enums.IssuePriority
 import issueservice.domain.enums.IssueStatus
 import issueservice.domain.enums.IssueType
@@ -15,6 +14,9 @@ class Issue(
 
     @Column
     var userId: Long,
+
+    @OneToMany(fetch = FetchType.EAGER)
+    val comments: MutableList<Comment> = mutableListOf(),
 
     @Column
     var summary: String,
