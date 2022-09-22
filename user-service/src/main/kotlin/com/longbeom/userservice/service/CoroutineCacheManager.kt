@@ -13,5 +13,9 @@ class CoroutineCacheManager<T> {
         localCache[key] = CacheMapper(value, Instant.now().plusMillis(ttl.toMillis()))
     }
 
+    suspend fun awaitEvict(key: String) {
+        localCache.remove(key)
+    }
+
     data class CacheMapper<T>(val cached: T, val ttl: Instant)
 }

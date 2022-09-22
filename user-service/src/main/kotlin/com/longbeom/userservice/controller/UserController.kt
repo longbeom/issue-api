@@ -1,12 +1,16 @@
 package com.longbeom.userservice.controller
 
+import com.longbeom.userservice.model.AuthToken
 import com.longbeom.userservice.model.SignInRequest
 import com.longbeom.userservice.model.SignInResponse
 import com.longbeom.userservice.model.SignUpRequest
 import com.longbeom.userservice.service.UserService
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RequestMapping("/api/v1/users")
@@ -21,4 +25,11 @@ class UserController(
     @PostMapping("/signin")
     suspend fun signIn(@RequestBody request: SignInRequest) : SignInResponse =
         userService.signIn(request)
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/logout")
+    suspend fun logout(@AuthToken token: String) {
+        userService.logout(token)
+    }
+
 }
