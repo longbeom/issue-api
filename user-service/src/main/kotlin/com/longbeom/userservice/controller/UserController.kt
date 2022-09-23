@@ -1,12 +1,10 @@
 package com.longbeom.userservice.controller
 
-import com.longbeom.userservice.model.AuthToken
-import com.longbeom.userservice.model.SignInRequest
-import com.longbeom.userservice.model.SignInResponse
-import com.longbeom.userservice.model.SignUpRequest
+import com.longbeom.userservice.model.*
 import com.longbeom.userservice.service.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -32,4 +30,7 @@ class UserController(
         userService.logout(token)
     }
 
+    @GetMapping("/me")
+    suspend fun get(@AuthToken token: String) : MeResponse =
+        MeResponse(userService.getByToken(token))
 }

@@ -1,8 +1,10 @@
 package com.longbeom.userservice.service
 
+import com.auth0.jwt.interfaces.DecodedJWT
 import com.longbeom.userservice.config.JWTProperties
 import com.longbeom.userservice.domain.entity.User
 import com.longbeom.userservice.domain.repository.UserRepository
+import com.longbeom.userservice.exception.InvalidJwtTokenException
 import com.longbeom.userservice.exception.PasswordNotMatchedException
 import com.longbeom.userservice.exception.UserExistsException
 import com.longbeom.userservice.exception.UserNotFoundException
@@ -71,4 +73,18 @@ class UserService(
     suspend fun logout(token: String) {
         cacheManager.awaitEvict(token)
     }
+
+    suspend fun getByToken(token: String): User {
+        val cachedUser = cacheManager.awaitGetOrPut(key = token, ttl = CACHE_TTL) {
+            // 캐시가 유효하지 않은 경우 동작
+            val decodeJWT: DecodedJWT = JWTUtils.decode(token, jwtProperties.secret, jwtProperties.issuer)
+
+            val userId: Long = decodeJWT.claims["userId"]?.asLong() ?: throw InvalidJwtTokenException()
+            get(userId)
+        }
+        return cachedUser
+    }
+
+    suspend fun get(userId: Long): User =
+        userRepository.findById(userId) ?: throw UserNotFoundException()
 }
