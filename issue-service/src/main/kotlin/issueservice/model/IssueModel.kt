@@ -9,7 +9,7 @@ import issueservice.domain.enums.IssueType
 import java.time.LocalDateTime
 
 data class IssueRequest(
-    val assigner: String,
+    val assigner: String? = null,
     val summary: String,
     val description: String,
     val type: IssueType,
@@ -19,7 +19,7 @@ data class IssueRequest(
 
 data class IssueResponse(
     val id: Long,
-    val assigner: String,
+    val assigner: String? = null,
     val comments: List<CommentResponse> = emptyList(),
     val summary: String,
     val description: String,

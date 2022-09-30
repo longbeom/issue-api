@@ -16,7 +16,7 @@ class Issue(
     var userId: Long,
 
     @Column
-    var assigner: String,
+    var assigner: String? = null,
 
     @OneToMany(fetch = FetchType.EAGER)
     val comments: MutableList<Comment> = mutableListOf(),
