@@ -17,6 +17,7 @@ class IssueService(
     @Transactional
     fun create(userId: Long, request: IssueRequest): IssueResponse {
         val issue = Issue(
+            assigner = request.assigner,
             summary = request.summary,
             description = request.description,
             userId = userId,
@@ -43,6 +44,7 @@ class IssueService(
         val issue: Issue = issueRepository.findByIdOrNull(id) ?: throw NotFoundException("이슈가 존재하지 않습니다.")
 
         return with(issue) {
+            assigner = request.assigner
             summary = request.summary
             description = request.description
             this.userId = userId
